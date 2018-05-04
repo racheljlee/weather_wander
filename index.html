@@ -8,27 +8,27 @@
     <title>Weather Wander</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Monoton|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Monoton|Montserrat|Poiret+One" rel="stylesheet">
 </head>
 
 <body>
 
     <div class="jumbotron text-center">
         <div class="container"></div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="jumbo-header">
-                        <h1>weather</h1>
-                        <h1>wander</h1>
-                        <h3>Under Construction.</h3>
-                    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbo-header">
+                    <h1>weather</h1>
+                    <h1>wander</h1>
+                    <h5>travel to your weather destination</h5>
                 </div>
             </div>
-
-            <class="row">
-
-            </class>
         </div>
+
+        <div class="row">
+
+        </div>
+    </div>
     </div>
 
     <!-- <div class="container">
@@ -55,7 +55,7 @@
 
                <div class="col-md-6" id="temperatureRange">
                     <img src="./assets/images/thermometer.png" id="thermometer-icon" alt="temperaturePic"> -->
-                    <!-- <div class="slidecontainer">
+    <!-- <div class="slidecontainer">
                         <input type="range" min="1" max="100" value="50" class="slider" id="temperatureSlider" />
                     </div> 
                 </div>
@@ -67,9 +67,22 @@
 
 
 
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBaQgfA2CxGwfr1FYps5zXP1fwa368EgDY",
+            authDomain: "weather-wander.firebaseapp.com",
+            databaseURL: "https://weather-wander.firebaseio.com",
+            projectId: "weather-wander",
+            storageBucket: "",
+            messagingSenderId: "406924302506"
+        };
+        firebase.initializeApp(config);
+    </script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-    <script src="./assets/javascript/apps.js"></script>
+    <script src="./assets/javascript/app.js"></script>
 </body>
 
 </html>
