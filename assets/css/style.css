@@ -1,25 +1,37 @@
 body {
-    background: #ABCAD6;
-    background-image: url('../images/blue-bg.png');
+    background: linear-gradient(#90CAF9, #039BE5, #0097A7);
+    /* background: #90CAF9; */
+    /* background-image: url('../images/blue-bg.png'); */
     font-family: 'Montserrat', sans-serif;
 }
 
-
-#temperatureSlider {
-    -webkit-appearance: slider-vertical;
+.jumbotron {
+    background-color: rgba(255, 255, 255, 0);
+    height: 100vh;
+    margin-bottom: 0px;
 }
 
-img {
-    height: 150px;
+.jumbo-header {
+    position: relative;
+    top: 50%;
 }
 
 h1 {
     font-size: 60px;
     font-family: 'Monoton', cursive;
+    color: #B3E5FC;
+    line-height: 50px;
 }
-.jumbotron {
-    text-align: center;
+
+
+/* #temperatureSlider {
+    -webkit-appearance: slider-vertical;
+} */
+
+img {
+    height: 150px;
 }
+
 #climate-icon {
     height: 160px;
 }
