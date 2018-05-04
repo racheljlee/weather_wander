@@ -24,6 +24,7 @@ $(document).ready(function() {
             
         });
     
+        // * Openweather's 5-Day Forecast API
         var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=xml&appid=";
 
         $.ajax({
