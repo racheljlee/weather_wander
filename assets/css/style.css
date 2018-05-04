@@ -1,0 +1,31 @@
+body {
+    background: #ABCAD6;
+    background-image: url('../images/blue-bg.png');
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+#temperatureSlider {
+    -webkit-appearance: slider-vertical;
+}
+
+img {
+    height: 150px;
+}
+
+h1 {
+    font-size: 60px;
+    font-family: 'Monoton', cursive;
+}
+.jumbotron {
+    text-align: center;
+}
+#climate-icon {
+    height: 160px;
+}
+#thermometer-icon {
+    height: 125px;
+}
+.weatherOptions {
+    text-align: center;
+}
