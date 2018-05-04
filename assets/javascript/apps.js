@@ -10,18 +10,24 @@ $(document).ready(function() {
         }).then(function(response) {
             console.log("response.cnt : " + response.cnt);
             console.log(response.list[5]);
-            console.log(+ response.list[5].main.temp);
+            console.log("temperature: "+ response.list[5].main.temp);
+            console.log("humidity: "+ response.list[5].main.humidity);
+            console.log("wind speed: "+ response.list[5].wind.speed);
+            console.log("rain: "+ response.list[1100].rain);
+            console.log("snow: "+ response.list[1100].snow);
+            console.log("clouds today: "+ response.list[5].clouds.today);
+
+            
             
         });
 
 
 
-     // *** END OPENWEATHER API *** //   
+     // *** USEFUL INFORMATION FROM RECTANGLEURL API *** //   
     //  response (object) > cnt (this is the number of results returned. useful if we want to run a for loop) 
     //  response (object) > list (array) > list[i] > main > temp 
     //  response (object) > list (array) > list[i] > main > humidity
     //  response (object) > list (array) > list[i] > wind > speed
-    //  response (object) > list (array) > list[i] > main > temp
     //  response (object) > list (array) > list[i] > rain
     //  response (object) > list (array) > list[i] > snow
     //  response (object) > list (array) > list[i] > clouds > today
