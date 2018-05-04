@@ -1,9 +1,12 @@
 $(document).ready(function() {
     // **** BEGIN OPENWEATHER API *** //
-    var cityURL = "https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=";
-    var rectangleURL = "https://api.openweathermap.org/data/2.5/box/city?bbox=-126,25,-66,49,10&appid=";
     var APIKEY = "a59b652772e28b82fb2ff69af2f1014c";
 
+    // * Openweather's Current Weather API
+    // * Get Cities by Rectangle Coordinates
+    var rectangleURL = "https://api.openweathermap.org/data/2.5/box/city?bbox=-126,25,-66,49,10&appid=";
+
+    // * AJAX call to get Current Weather data
         $.ajax({
             method: "GET",
             url: rectangleURL + APIKEY
@@ -20,8 +23,17 @@ $(document).ready(function() {
             
             
         });
+    
+        var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=xml&appid=";
 
+        $.ajax({
+            method: "GET",
+            url: fiveDayForecastURL + APIKEY
+        }).then(function(response) {
+            console.log(response)
+        });
 
+    // *** END OPENWEATHER API *** //
 
      // *** USEFUL INFORMATION FROM RECTANGLEURL API *** //   
     //  response (object) > cnt (this is the number of results returned. useful if we want to run a for loop) 
