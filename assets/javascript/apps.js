@@ -8,11 +8,22 @@ $(document).ready(function() {
             method: "GET",
             url: rectangleURL + APIKEY
         }).then(function(response) {
-            console.log(response);
-            $("#testDiv").text(JSON.stringify(response));
+            console.log("response.cnt : " + response.cnt);
+            console.log(response.list[5]);
+            console.log(+ response.list[5].main.temp);
+            
         });
 
 
 
      // *** END OPENWEATHER API *** //   
+    //  response (object) > cnt (this is the number of results returned. useful if we want to run a for loop) 
+    //  response (object) > list (array) > list[i] > main > temp 
+    //  response (object) > list (array) > list[i] > main > humidity
+    //  response (object) > list (array) > list[i] > wind > speed
+    //  response (object) > list (array) > list[i] > main > temp
+    //  response (object) > list (array) > list[i] > rain
+    //  response (object) > list (array) > list[i] > snow
+    //  response (object) > list (array) > list[i] > clouds > today
+    //  response (object) > list (array) > list[i] > main > temp
 })
