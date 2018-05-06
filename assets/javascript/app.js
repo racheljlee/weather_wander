@@ -29,6 +29,7 @@ $(document).ready(function() {
     
         // * Openweather's 5-Day Forecast API
         var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=xml&appid=";
+        var city = 
 
         $.ajax({
             method: "GET",
@@ -39,17 +40,16 @@ $(document).ready(function() {
 
     // *** END OPENWEATHER API *** //
 
-     // *** USEFUL INFORMATION FROM RECTANGLEURL API *** //   
-    //  response (object) > cnt (this is the number of results returned. useful if we want to run a for loop) 
-    //  response (object) > list (array) > list[i] > main > temp 
-    //  response (object) > list (array) > list[i] > main > humidity
-    //  response (object) > list (array) > list[i] > wind > speed
-    //  response (object) > list (array) > list[i] > rain
-    //  response (object) > list (array) > list[i] > snow
-    //  response (object) > list (array) > list[i] > clouds > today
-    //  response (object) > list (array) > list[i] > main > temp
-
-
+    // *** GETTING TEMPERATURE VALUE FOR CITIES ***
+        // * GET TEMPERATURE VALUE FROM SLIDEBAR. ==> var slideTemp
+        // * var slideTempMin = slideTemp - 3; 
+        // * var slideTempMax = slideTemp + 3;
+        /* for (var i = 0; i < response.cnt; i++) {
+                if (response.list[i].main.temp > slideTempMin && response.list[i].main.temp < slideTempMax) {
+                    save response.name or response.id into firebase. 
+                }
+        }
+        */ 
 
 
 
@@ -65,7 +65,7 @@ $(document).ready(function() {
         temperatureSliderDiv.slideDown("slow");
     });
 
-    // * Tmperature Slider value in button *
+    // * Temperature Slider value in button *
     var slider = $("#myRange");
     var output = $("#temperature");
     output.html(slider.val());
