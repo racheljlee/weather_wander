@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    // **** CONNECT TO FIREBASE *** //
+    var database = firebase.database();
+
     // **** BEGIN OPENWEATHER API *** //
     var APIKEY = "a59b652772e28b82fb2ff69af2f1014c";
 
@@ -45,4 +48,29 @@ $(document).ready(function() {
     //  response (object) > list (array) > list[i] > snow
     //  response (object) > list (array) > list[i] > clouds > today
     //  response (object) > list (array) > list[i] > main > temp
+
+
+
+
+
+
+    // **** FRONT-END JQUERY **** // 
+    var temperatureSliderDiv = $("#temperature-slider");
+    temperatureSliderDiv.hide();
+
+    
+    // * Temperature Slider slide down animation *
+    var thermometerIcon = $("#thermometer-icon");
+    thermometerIcon.on("click", function() {
+        temperatureSliderDiv.slideDown("slow");
+    });
+
+    // * Tmperature Slider value in button *
+    var slider = $("#myRange");
+    var output = $("#temperature");
+    output.html(slider.val());
+
+    slider.oninput = function() {
+        output.innerHTML = this.value;
+      }
 })
