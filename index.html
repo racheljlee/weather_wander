@@ -15,37 +15,55 @@
 
     <div class="jumbotron text-center">
         <div class="container"></div>
-            <div class="row row-1">
-                <div class="col-md-12">
-                    <div class="jumbo-header">
-                        <h1>weather</h1>
-                        <h1>wander</h1>
-                        <h5>travel to your weather destination</h5>
-                    </div>
+        <div class="row row-1">
+            <div class="col-md-12">
+                <div class="jumbo-header">
+                    <h1>weather</h1>
+                    <h1>wander</h1>
+                    <h5>travel to your weather destination</h5>
                 </div>
             </div>
+        </div>
 
-            <div class="row choose-temperature">
-                <div class="col-md-12 text-center">
-                    <div class="thermometer-icon" id="thermometer-icon">
-                        <img src="assets/images/thermometer-white.png">
-                    </div>
-                    <div class="choose-tempature-text">
-                        <h5>choose your temperature:</h5>
-                    </div>
+        <div class="row choose-temperature">
+            <div class="col-md-12 text-center">
+                <div class="thermometer-icon" id="thermometer-icon">
+                    <img src="assets/images/thermometer-white.png">
+                </div>
+                <div class="choose-tempature-text">
+                    <h5>choose your temperature:</h5>
                 </div>
             </div>
+        </div>
 
-            <div class="row" class="temperature-slider" id="temperature-slider">
-                <div class="col-md-12">
-                    <div class="slidecontainer">
-                        <input type="range" min="-10" max="120" value="60" class="slider" id="myRange">
-                        <button class="btn">
-                            <span class="temperature" id="temperature"></span> <span class="degrees-fahrenheit">&deg;F</span>
-                        </button>
-                    </div>
+        <div class="row" class="temperature-slider" id="temperature-slider">
+            <div class="col-md-12">
+                <div class="slidecontainer">
+                    <input type="range" min="-10" max="120" value="60" class="slider" id="myRange">
+                    <button class="btn">
+                        <span class="temperature" id="temperature"></span>
+                        <span class="degrees-fahrenheit">&deg;F</span>
+                    </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="row" class="cities-table" id="cities-table">
+        <div class="col-md-12">
+            <h2>20 Cities:</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>City Name</th>
+                        <th>State</th>
+                        <th>Current Temperature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--Data from openweather API should populate-->
+                </tbody>
+            </table>
         </div>
     </div>
 
