@@ -14,40 +14,200 @@
 <body>
 
     <div class="jumbotron text-center">
-        <div class="container"></div>
-        <div class="row row-1">
-            <div class="col-md-12">
-                <div class="jumbo-header">
-                    <h1>weather</h1>
-                    <h1>wander</h1>
-                    <h5>travel to your weather destination</h5>
-                </div>
-            </div>
-        </div>
+        <div class="container">
 
-        <div class="row choose-temperature">
-            <div class="col-md-12 text-center">
-                <div class="thermometer-icon" id="thermometer-icon">
-                    <img src="assets/images/thermometer-white.png">
-                </div>
-                <div class="choose-tempature-text">
-                    <h5>choose your temperature:</h5>
+            <div class="row jumbo">
+                <div class="col-md-12">
+                    <div class="jumbo-header">
+                        <h1>weather</h1>
+                        <h1>wander</h1>
+                        <h5>travel to your weather destination</h5>
+                    </div>
                 </div>
             </div>
-        </div>
+            <!--end jumbotron header div-->
 
-        <div class="row" class="temperature-slider" id="temperature-slider">
-            <div class="col-md-12">
-                <div class="slidecontainer">
-                    <input type="range" min="-10" max="120" value="60" class="slider" id="myRange">
-                    <button class="btn">
-                        <span class="temperature" id="temperature"></span>
-                        <span class="degrees-fahrenheit">&deg;F</span>
-                    </button>
+            <div class="row choose-temperature">
+                <div class="col-md-12 text-center">
+                    <div class="thermometer-icon" id="thermometer-icon">
+                        <img src="assets/images/thermometer-white.png">
+                    </div>
+                    <div class="choose-tempature-text">
+                        <h5>choose your temperature:</h5>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+            <!--end choose-temperature div row-->
+
+            <div class="row" class="temperature-slider" id="temperature-slider">
+                <div class="col-md-12">
+                    <div class="slidecontainer">
+                        <input type="range" min="-10" max="120" value="60" class="slider" id="myRange">
+                        <button class="btn temp-btn">
+                            <span class="temperature" id="temperature"></span>
+                            <span class="degrees-fahrenheit">&deg;F, Please!</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- end temperature-slider div row-->
+
+            <div class="row cities-table" id="cities-table">
+                <div class="col-md-12">
+                    <h2>20 Cities:</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>City Name</th>
+                                <th>State</th>
+                                <th>Current Temperature</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--Data from openweather API should populate-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--end cities-table div row-->
+
+            <!--Halle's City Card code-->
+            <div class="row city-options">
+                <div class="col-md-12">
+                    <div id="accordion">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                                    City, State 1
+                                </a>
+                            </div>
+                            <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 1</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 2</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 3</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 4</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 5</p>
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="card-link" data-toggle="collapse" href="#collapseTwo">
+                                    City, State 2
+                                </a>
+                            </div>
+                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 1</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 2</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 3</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 4</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 5</p>
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="card-link" data-toggle="collapse" href="#collapseThree">
+                                    City, State 3
+                                </a>
+                            </div>
+                            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 1</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 2</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 3</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 4</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img class="card-img-top" src="http://via.placeholder.com/200x150" alt="Card image cap">
+                                            <p class="card-text"> 75 &deg;F</p>
+                                            <p class="card-text"> Day 5</p>
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--end city-options div row-->
+
+
+
+            <!--end Halle's code-->
+
 
     <div class="row" class="cities-table" id="cities-table">
         <div class="col-md-12">
@@ -64,8 +224,11 @@
                     <!--Data from openweather API should populate-->
                 </tbody>
             </table>
+
         </div>
+        <!-- end container div-->
     </div>
+    <!--end jumbotron div-->
 
     <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
     <script>
@@ -85,6 +248,11 @@
         crossorigin="anonymous"></script>
     <!--jQuery UI library-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--Bootstrap jQuery Library-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <!--OUR javascript-->
     <script src="./assets/javascript/app.js"></script>
 </body>
 
