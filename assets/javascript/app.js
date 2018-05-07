@@ -1,21 +1,23 @@
 $(document).ready(function () {
     // **** CONNECT TO FIREBASE *** //
     var database = firebase.database();
+    database.ref("/citiesWithinRange").remove();
+    // ** Event Listener for changes to Firebase **
+    database.ref("/citiesWithinRange").on("child_added", function (snapshot) {
+        var data = snapshot.val() || {};
+        console.log("Data: ", data);
+        // * reference variables for table cells
+        // * creating new cells
+        var tbody = $("#citiesWithinRange");
+        var tr = $("<tr>");
+        var cityTd = $("<td>").text(data.city);
+        var stateTd = $("<td>").text(data.city);
+        var currentTempTd = $("<td>").text(data.temperature);
 
-    database.ref().on("value", function (snapshot) {
-        var data = snapshot.val();
-        console.log(data);
-        // push ({
-        //     task: "Hello",
-        //     id: "world"
-        // });
-        
-       
-        // database.ref().push({
-        //     task: "Rachel", 
-        //     id: "UIUC"            
-        // });
-       
+        tbody.append(tr);
+        tr.append(cityTd);
+        tr.append(stateTd);
+        tr.append(currentTempTd);
     });
 
     // **** BEGIN OPENWEATHER API *** //
@@ -31,72 +33,24 @@ $(document).ready(function () {
         url: rectangleURL + APIKEY
     }).then(function (response) {
         console.log("response.cnt : " + response.cnt);
-        // console.log(response.list[5]);
-        // console.log("temperature: "+ response.list[5].main.temp);
-        // console.log("humidity: "+ response.list[5].main.humidity);
-        // console.log("wind speed: "+ response.list[5].wind.speed);
-        // console.log("rain: "+ response.list[1100].rain);
-        // console.log("snow: "+ response.list[1100].snow);
-        // console.log("clouds today: "+ response.list[5].clouds.today);
-
         // *** GETTING TEMPERATURE VALUE FOR CITIES ***
-        // * GET TEMPERATURE VALUE FROM SLIDEBAR. ==> var slideTemp
+        for (var i = 0; i < 500; i++) {
+            var currentCity = response.list[i];
+            // Testing with temperature range from 18 to 22. This will change with slider temperature value. 
+            if (currentCity.main.temp > 18 && currentCity.main.temp < 22) {
 
-        // * reference variables for table cells
-        // * creating new cells
-        var tbody = $("tbody");
-        var tr = $("<tr>");
-        var cityTd = $("<td>");
-        var stateTd = $("<td>");
-        var currentTempTd = $("<td>");
-        // * temperature range +-3
-        // var slideTempMin = slideTemp - 3;
-        // var slideTempMax = slideTemp + 3;
-        var pageResults = 0;
-        for (var i = 0; i < 50; i++) {
-            // console.log("for loop is running");
-            // if (response.list[i].main.temp > slideTempMin && response.list[i].main.temp < slideTempMax) {
-            // cityTd.text(response.list[i].name);
-            // stateTd.text(response.list[i].name);
-            // currentTempTd.text(response.list[i].name);
-            if (response.list[i].main.temp > 18 && response.list[i].main.temp < 22) {
+                console.log("Pulling data for temperature range between 18 and 22. Test Case.");
+                console.log("City Name: " + currentCity.name);
+                console.log("Temp within range: " + currentCity.main.temp);
 
-                // console.log(response.list[i].name);
-                console.log("City Name: " + response.list[i].name);
-                console.log("Temp within range: " + response.list[i].main.temp);
+                // *** SAVE CITY INFORMATION IN FIREBASE ***
+                database.ref("/citiesWithinRange").push({
+                    "city": currentCity.name,
+                    "temperature": currentCity.main.temp
+                });
             }
-            // pageResults++;
-            // if (pageResults > 20) {
-            //     i = response.cnt;
-            //     pageResults = 0;
-            //     // break;
-            // }
-            tbody.append(tr);
-            tr.append(cityTd);
-            tr.append(stateTd);
-            tr.append(currentTempTd);
         }
     });
-
-
-
-
-    // * Openweather's 5-Day Forecast API
-    // var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=London,us&appid=";
-    // // var city = response.list[i].
-
-    //     $.ajax({
-    //         method: "GET",
-    //         url: fiveDayForecastURL + APIKEY
-    //     }).then(function (response) {
-    //         console.log(response)
-    //     });
-
-    // *** END OPENWEATHER API *** //
-
-
-
-
 
     // **** FRONT-END JQUERY **** // 
     var temperatureSliderDiv = $("#temperature-slider");
@@ -118,11 +72,3 @@ $(document).ready(function () {
         output.innerHTML = this.value;
     }
 });
-
-
-// * THINGS WE NEED TO FIX: 
-// ** Get the slider to show changing values
-// ** Get the list of city names and tempertaure to populate the cities table 
-// ** Save city names and temperatures to firebase (Find out what needs to be saved in FireBase)
-// ** Check if data retrieved is for current date and time. 
-// ** How do we get name of State from API ? 
