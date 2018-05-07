@@ -1,6 +1,24 @@
 $(document).ready(function () {
     // **** CONNECT TO FIREBASE *** //
     var database = firebase.database();
+    database.ref("/citiesWithinRange").remove();
+    // ** Event Listener for changes to Firebase **
+    database.ref("/citiesWithinRange").on("child_added", function (snapshot) {
+        var data = snapshot.val() || {};
+        console.log("Data: ", data);
+        // * reference variables for table cells
+        // * creating new cells
+        var tbody = $("#citiesWithinRange");
+        var tr = $("<tr>");
+        var cityTd = $("<td>").text(data.city);
+        var stateTd = $("<td>").text(data.city);
+        var currentTempTd = $("<td>").text(data.temperature);
+
+        tbody.append(tr);
+        tr.append(cityTd);
+        tr.append(stateTd);
+        tr.append(currentTempTd);
+    });
 
     // **** BEGIN OPENWEATHER API *** //
     var APIKEY = "a59b652772e28b82fb2ff69af2f1014c";
@@ -23,13 +41,10 @@ $(document).ready(function () {
         url: rectangleURL + APIKEY
     }).then(function (response) {
         console.log("response.cnt : " + response.cnt);
-        console.log(response.list[5].name);
-        console.log("temperature: " + response.list[5].main.temp);
-        console.log("humidity: " + response.list[5].main.humidity);
-        console.log("wind speed: " + response.list[5].wind.speed);
-        console.log("rain: " + response.list[1100].rain);
-        console.log("snow: " + response.list[1100].snow);
-        console.log("clouds today: " + response.list[5].clouds.today);
+
+  
+//         button click doesn't exist yet. 
+        
         var userTemp = +slider.val();
         var userMin = userTemp - .3;
         var userMax = userTemp + .3;
@@ -39,17 +54,26 @@ $(document).ready(function () {
             var city = response.list[i];
             if (city.main.temp >= userMin && city.main.temp <= userMax) {
                 count++;
+              // *** SAVE CITY INFORMATION IN FIREBASE ***
+                database.ref("/citiesWithinRange").push({
+                    "city": city.name,
+                    "temperature": city.main.temp
+                });
+              
             }
         }
         console.log(count);
 
-        return response.list[5].name;
-
+        return response;
 
 
     }).then(function (response) {
+         console.log(response);
+        for (var i = 0; i < response.list.length; i++) {
+         
+        }
         // * Openweather's 5-Day Forecast API
-        var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + response + "&appid=";
+        var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + response.list[5].name + "&appid=";
 
         $.ajax({
             method: "GET",
@@ -58,7 +82,7 @@ $(document).ready(function () {
             console.log(response)
         }); // end of AJAX call
 
-        console.log("this is the city name: " + response);
+      
     });  // end of AJAX call
 
 
@@ -79,16 +103,19 @@ $(document).ready(function () {
 
 
 
+
     // **** FRONT-END JQUERY **** // 
 
     var temperatureSliderDiv = $("#temperature-slider");
     temperatureSliderDiv.hide(); // * hides temp chooser div on page load
+
 
     // * Temperature Slider slide down animation *
     var thermometerIcon = $("#thermometer-icon");
     thermometerIcon.on("click", function () {
         temperatureSliderDiv.slideDown("slow");
     });
+
 
 
     // Cities Cards onclick functions
