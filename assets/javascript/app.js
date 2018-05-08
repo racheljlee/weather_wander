@@ -1,31 +1,19 @@
 $(document).ready(function () {
-    // **** CONNECT TO FIREBASE *** //
-    var database = firebase.database();
-    database.ref("/citiesWithinRange").remove();
-    // ** Event Listener for changes to Firebase **
-    database.ref("/citiesWithinRange").on("child_added", function (snapshot) {
-        var data = snapshot.val() || {};
-        console.log("Data: ", data);
-        // * reference variables for table cells
-        // * creating new cells
-        var tbody = $("#citiesWithinRange");
-        var tr = $("<tr>");
-        var cityTd = $("<td>").text(data.city);
-        var stateTd = $("<td>").text(data.city);
-        var currentTempTd = $("<td>").text(data.temperature);
-
-        tbody.append(tr);
-        tr.append(cityTd);
-        tr.append(stateTd);
-        tr.append(currentTempTd);
-    });
-
-    // **** BEGIN OPENWEATHER API *** //
-    var APIKEY = "a59b652772e28b82fb2ff69af2f1014c";
-
     // * Openweather's Current Weather API
     // * Get Cities by Rectangle Coordinates
+    var APIKEY = "a59b652772e28b82fb2ff69af2f1014c";
     var rectangleURL = "https://api.openweathermap.org/data/2.5/box/city?bbox=-126,25,-66,49,10&units=imperial&appid=";
+    cityCounter = 0;
+
+    // Hiding the temperature slider when starting the app
+    var temperatureSliderDiv = $("#temperature-slider");
+    temperatureSliderDiv.hide();
+
+    // * Temperature Slider slide down animation *
+    var thermometerIcon = $("#thermometer-icon");
+    thermometerIcon.on("click", function () {
+        temperatureSliderDiv.slideDown("slow");
+    });
 
     // * Temperature Slider value in button *
     var slider = $("#myRange");
@@ -35,95 +23,137 @@ $(document).ready(function () {
         output.html(this.value);
     });
 
-    // * AJAX call to get Current Weather data
-    $.ajax({
-        method: "GET",
-        url: rectangleURL + APIKEY
-    }).then(function (response) {
-        console.log("response.cnt : " + response.cnt);
-
-  
-//         button click doesn't exist yet. 
-        
-        var userTemp = +slider.val();
-        var userMin = userTemp - .3;
-        var userMax = userTemp + .3;
-        var count = 0;
-
-        for (var i = 0; i < response.list.length; i++) {
-            var city = response.list[i];
-            if (city.main.temp >= userMin && city.main.temp <= userMax) {
-                count++;
-              // *** SAVE CITY INFORMATION IN FIREBASE ***
-                database.ref("/citiesWithinRange").push({
-                    "city": city.name,
-                    "temperature": city.main.temp
-                });
-              
+    $(".temp-btn").on("click", function () {
+        console.log("I clicked this");
+        $("#accordion").empty();
+        $.ajax({
+            method: "GET",
+            url: rectangleURL + APIKEY
+        }).then(function (response) {
+            // ** CREATING RANGE OF TEMPERATURE FROM SLIDER BAR ***
+            var userTemp = +slider.val();
+            var userMin = userTemp - .3;
+            var userMax = userTemp + .3;
+            var count = 0; // KEEPING A COUNT OF ALL CITIES
+            var cities = []; // Array of cities within temperature range
+            for (var i = 0; i < response.list.length; i++) {
+                var city = response.list[i];
+                // console.log("city: ",city.name);
+                if (city.main.temp >= userMin && city.main.temp <= userMax) {
+                    // Calling function to make accordion for each city that is clicked
+                    createAccordion(city, count);
+                    // Saving city names to an array
+                    cities.push(city.name);
+                    count++;
+                }
             }
-        }
-        console.log(count);
+            console.log("array of cities matching this temperature: ", cities);
+            console.log("city counter: ", count);
+            // return cities;
+        })
+    });
+    
+    // ** CREATING ACCORDION TO APPEAR ON DOM **
+    function createAccordion(data, cityCounter) {
 
-        return response;
+        // console.log("Data: ", data);
+        // *** GENERATING ACCORDION + CARD ***
+        var card = $(`<div class="card">`);
+        var cardHeader = $(`<div class="card-header">`);
+        var cardLink = $(`<a class="card-link" data-toggle="collapse" href="#collapse${cityCounter}" id="cityTab${cityCounter}">`);
+        cardLink.attr("data-city", data.name);
+        var collapse = $(`<div id="collapse${cityCounter}" data-parent="#accordion" class="collapse">`);
+
+        // *** APPENDING ACCORDION PARTS ***
+        $("#accordion").append(card);
+        card.append(cardHeader);
+        cardHeader.append(cardLink);
+        cardLink.append(data.name);
+        card.append(collapse);
 
 
-    }).then(function (response) {
-         console.log(response);
-        for (var i = 0; i < response.list.length; i++) {
-         
-        }
+        console.log("city counter: ", cityCounter);
+        console.log("CardLink ID Value (represents count): ", cardLink.attr("id"));
+        // We can use either cityCounter or data.name to get city. In case of data.name, we don't need cities[]. 
+    }
+
+    // *** CLICKING ON THE CITY NAME TO SHOW 5 DAY FORECAST
+    $(document).on("click", ".card-link", function () {
+        // console.log("what is this: ", $(this).attr("id"));
+        var collapseDivId = $(this).attr("href");
+        $(collapseDivId).empty();
+        console.log(collapseDivId);
+
+
         // * Openweather's 5-Day Forecast API
-        var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + response.list[5].name + "&appid=";
+        var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + $(this).attr("data-city") + "&units=imperial" + "&appid=";
 
         $.ajax({
             method: "GET",
             url: fiveDayForecastURL + APIKEY
         }).then(function (response) {
-            console.log(response)
-        }); // end of AJAX call
 
-      
-    });  // end of AJAX call
+            var cardBody = $(`<div class="card-body">`);
+            var row = $(`<div class="row">`);
+            var col1 = `<div class="col-md-1">`;
+            var col2 = `<div class="col-md-2">`;
+            var p = `<p class="card-text"></p>`;
+            var button = `<div class="btn btn-info"><h3>SEE HOTELS IN THE AREA</h3></div>`;
+            // var pDate = $(`<p class="card-text"></p>`);
 
+            $(collapseDivId).append(`<div class="card-body"><h1>FIVE DAY FORECAST</h1></div>`);
+            console.log("FiveDayForecast Response", response.list[5].main.temp);
+            // console.log("Length: ", response.list.length);
 
+            // console.log($(this).attr("data-city"));
 
-    // *** END OPENWEATHER API *** //
+            $(collapseDivId).append(cardBody);
+            cardBody.append(row);
 
-    // *** GETTING TEMPERATURE VALUE FOR CITIES ***
-    // * GET TEMPERATURE VALUE FROM SLIDEBAR. ==> var slideTemp
-    // * var slideTempMin = slideTemp - 3; 
-    // * var slideTempMax = slideTemp + 3;
-    /* for (var i = 0; i < response.cnt; i++) {
-            if (response.list[i].main.temp > slideTempMin && response.list[i].main.temp < slideTempMax) {
-                save response.name or response.id into firebase. 
+            var leftSpace = $(col1).attr("id", "leftSpace");
+            var rightSpace = $(col1).attr("id", "rightSpace");
+            row.append(leftSpace);
+            var dayCounter = 1;
+            // This for loop generates date and temperature for 5 day forecast
+            for (var i = 4; i < response.list.length; i = i + 8) {
+                var day = $(col2).attr("id", "day" + dayCounter);
+                var dayTemp = $(p).attr("id", "dayTemp" + dayCounter);
+                var dateTemp = $(p).attr("id", "dateTemp" + dayCounter);
+                row.append(day);
+                day.append(dayTemp);
+                day.append(dateTemp);
+                dayTemp.append(response.list[i].main.temp);
+                dateTemp.append(response.list[i].dt_txt.substring(0, 10));
+                console.log("Temperature in F: ", response.list[i].main.temp);
+                console.log("Date: ", response.list[i].dt_txt.substring(0, 10));
+                dayCounter++;
             }
-    }
-    */
+
+            row.append(rightSpace);
+            
+            cardBody.append(button);
 
 
 
-
-
-    // **** FRONT-END JQUERY **** // 
-
-    var temperatureSliderDiv = $("#temperature-slider");
-    temperatureSliderDiv.hide(); // * hides temp chooser div on page load
-
-
-    // * Temperature Slider slide down animation *
-    var thermometerIcon = $("#thermometer-icon");
-    thermometerIcon.on("click", function () {
-        temperatureSliderDiv.slideDown("slow");
+        }); // end of AJAX call
     });
 
-
-
-    // Cities Cards onclick functions
-    $(".card-group").hide();
-
-    $("#forecast-button").on("click", function () {
-        $(".card-group").show();
-        console.log("I've been clicked");
-    }); // end of cities card functions
+    // *** FOURSQUARE API ***
+    var queryCity = "Chicago";
+    var clientID = "KKWZ0AZRDFFQZVPRPXDQDFQGKKKVLSSPOIHYG0GXBIKFRRNN";
+    var clientSecret = "GQCLHQBZ5OFEWE4430YKBPETWT2535BAJWQW0D0RPYILV5GM";
+    var fourSquareURL = "https://api.foursquare.com/v2/venues/explore?&near="
+        + queryCity + "&client_id=" + clientID + "&client_secret="
+        + clientSecret + "&v=20180508" + "&query=hotels";
+    $.ajax({
+        method: "GET",
+        url: fourSquareURL,
+    }).then(function (response) {
+        var hotelsList = response.response.groups[0].items;
+        for (var i = 0; i < hotelsList.length; i++) {
+            // *** This generates a list of all hotels in this city ***
+            console.log(hotelsList[i].venue.name);
+        }
+    });
 
 }); // end of document ready function
