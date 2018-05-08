@@ -98,7 +98,7 @@ $(document).ready(function () {
             var col1 = `<div class="col-md-1">`;
             var col2 = `<div class="col-md-2">`;
             var p = `<p class="card-text"></p>`;
-            var button = `<div class="btn btn-info">`;
+            var button = `<div class="btn btn-info"><h3>SEE HOTELS IN THE AREA</h3></div>`;
             // var pDate = $(`<p class="card-text"></p>`);
 
             $(collapseDivId).append(`<div class="card-body"><h1>FIVE DAY FORECAST</h1></div>`);
@@ -129,9 +129,10 @@ $(document).ready(function () {
                 dayCounter++;
             }
 
-
             row.append(rightSpace);
             
+            cardBody.append(button);
+
 
 
         }); // end of AJAX call
