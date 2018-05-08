@@ -80,7 +80,7 @@ $(document).ready(function () {
         cardLink.append(data.name);
         card.append(collapse);
 
-        
+
         var click = true;
         cardLink.on("click", function () {
             if (click === true) {
@@ -105,7 +105,8 @@ $(document).ready(function () {
 
 
         // * Openweather's 5-Day Forecast API
-        var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + $(this).attr("data-city") + "&units=imperial" + "&appid=";
+        var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" +
+            cityName + "&units=imperial" + "&appid=";
 
         $.ajax({
             method: "GET",
@@ -116,9 +117,9 @@ $(document).ready(function () {
             var col1 = `<div class="col-md-1">`;
             var col2 = `<div class="col-md-2">`;
             var p = `<p class="card-text"></p>`;
-            var button = `<div class="btn btn-info" id="hotelButton">SEE HOTELS IN THE AREA</div>`;
-            $(button).attr("data-cityname", collapseDivId);
-            
+            var button = `<div class="btn btn-info hotelButton" data-cityname=${cityName}>SEE HOTELS IN THE AREA</div>`;
+            $(button).attr("data-cityname", cityName);
+
             $(collapseDivId).append(`<div class="card-body"><h1>FIVE DAY FORECAST</h1></div>`);
             // console.log("FiveDayForecast Response", response.list[5].main.temp);
             // console.log("Length: ", response.list.length);
@@ -145,89 +146,87 @@ $(document).ready(function () {
                 // console.log("Date: ", response.list[i].dt_txt.substring(0, 10));
                 dayCounter++;
             }
-            
-            row.append(rightSpace);
-            
-            cardBody.append(button);
-        }); 
-    }); // end of cardlink onclick delegator function
-            
 
-           
-            $("#hotelButton").on("click", function (){     
-                console.log("Hotel Button Clicked"); 
-                console.log("city: ", cityName);
-                // *** FOURSQUARE API ***
-                var queryCity = cityName;
-                var clientID = "KKWZ0AZRDFFQZVPRPXDQDFQGKKKVLSSPOIHYG0GXBIKFRRNN";
-                var clientSecret = "GQCLHQBZ5OFEWE4430YKBPETWT2535BAJWQW0D0RPYILV5GM";
-                var fourSquareURL = "https://api.foursquare.com/v2/venues/explore?&near="
-                + queryCity + "&client_id=" + clientID + "&client_secret="
-                + clientSecret + "&v=20180508" + "&query=hotels";
-                $.ajax({
-                    method: "GET",
-                    url: fourSquareURL,
-                }).then(function (response) {
-                    var hotelsList = response.response.groups[0].items;
-                    for (var i = 0; i < hotelsList.length; i++) {
-                        // *** This generates a list of all hotels in this city ***
-                        console.log(hotelsList[i].venue.name);
-                    }
-                });
-        
-                // *** MAKE HOTEL ACCORDION HERE ***
-            });
-        }); // end of AJAX call
-        
+            row.append(rightSpace);
+
+            cardBody.append(button);
+        });
+    }); // end of cardlink onclick delegator function
+
+    $(document).on("click",".hotelButton", function () {
+        console.log("Hotel Button Clicked");
+        // *** FOURSQUARE API ***
+        var queryCity = $(this).attr("data-cityname");
+        console.log("city: ", queryCity);
+        var clientID = "KKWZ0AZRDFFQZVPRPXDQDFQGKKKVLSSPOIHYG0GXBIKFRRNN";
+        var clientSecret = "GQCLHQBZ5OFEWE4430YKBPETWT2535BAJWQW0D0RPYILV5GM";
+        var fourSquareURL = "https://api.foursquare.com/v2/venues/explore?&near="
+            + queryCity + "&client_id=" + clientID + "&client_secret="
+            + clientSecret + "&v=20180508" + "&query=hotels";
+        $.ajax({
+            method: "GET",
+            url: fourSquareURL,
+        }).then(function (response) {
+            var hotelsList = response.response.groups[0].items;
+            for (var i = 0; i < hotelsList.length; i++) {
+                // *** This generates a list of all hotels in this city ***
+                console.log(hotelsList[i].venue.name);
+            }
+        });
+
+        // *** MAKE HOTEL ACCORDION HERE ***
+
+    }); // end of AJAX call
+
+
+
+    // **** FRONT-END JQUERY **** // 
+
+
+    var temperatureSliderDiv = $("#temperature-slider");
+    temperatureSliderDiv.hide(); // * hides temp chooser div on page load
+
+    var jumboDiv = $(".jumbo");
+    var thermometerIcon = $("#thermometer-icon");
+    var thermometerIconDiv = $(".thermometer-icon");
+    var chooseTemperatureDiv = $(".choose-temperature");
+    var chooseTemperatureText = $(".choose-temperature-text");
+    var temperatureSliderDiv = $("#temperature-slider");
+    var tempButton = $("#temp-btn");
+    var slidecontainer = $(".slidercontainer");
+    var cityDiv = $("#city-options");
+
+    // * Temperature Slider slide down animation *
+    thermometerIcon.on("click", function () {
+        chooseTemperatureDiv.css("opacity", ".8"); // "activates" choose-temperature div's opacity
+        temperatureSliderDiv.slideDown("slow");
     });
 
-            // **** FRONT-END JQUERY **** // 
+
+    // Temperature Button onclick toggle
+    tempButton.on("click", function () {
+        jumboDiv.slideUp();
+        thermometerIconDiv.slideUp();
+        chooseTemperatureText
+            .css("margin-top", "-70px");
+        temperatureSliderDiv
+            .css("padding-top", "10px");
+        chooseTemperatureDiv
+            .css("padding-bottom", "0px");
+        cityDiv.slideDown("slow");
+    });
 
 
-            var temperatureSliderDiv = $("#temperature-slider");
-            temperatureSliderDiv.hide(); // * hides temp chooser div on page load
+    // ** SECTION 2: CITIES POPULATE FEATURE **
+    // Cities Cards onclick functions
+    $(".card-group").hide();
 
-            var jumboDiv = $(".jumbo");
-            var thermometerIcon = $("#thermometer-icon");
-            var thermometerIconDiv = $(".thermometer-icon");
-            var chooseTemperatureDiv = $(".choose-temperature");
-            var chooseTemperatureText = $(".choose-temperature-text");
-            var temperatureSliderDiv = $("#temperature-slider");
-            var tempButton = $("#temp-btn");
-            var slidecontainer = $(".slidercontainer");
-            var cityDiv = $("#city-options");
-            
-            // * Temperature Slider slide down animation *
-            thermometerIcon.on("click", function () {
-                chooseTemperatureDiv.css("opacity", ".8"); // "activates" choose-temperature div's opacity
-                temperatureSliderDiv.slideDown("slow");
-            });
+    $("#forecast-button").on("click", function () {
+        $(".card-group").show();
+        console.log("I've been clicked");
+    }); // end of cities card functions
 
 
-            // Temperature Button onclick toggle
-            tempButton.on("click", function () {
-                jumboDiv.slideUp();
-                thermometerIconDiv.slideUp();
-                chooseTemperatureText
-                    .css("margin-top", "-70px");
-                temperatureSliderDiv
-                    .css("padding-top", "10px");
-                chooseTemperatureDiv
-                    .css("padding-bottom", "0px");
-                cityDiv.slideDown("slow");
-            });
 
 
-            // ** SECTION 2: CITIES POPULATE FEATURE **
-            // Cities Cards onclick functions
-            $(".card-group").hide();
-
-            $("#forecast-button").on("click", function () {
-                $(".card-group").show();
-                console.log("I've been clicked");
-            }); // end of cities card functions
-
-
-    
-        
 }); // end of document ready function
