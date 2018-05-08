@@ -13,10 +13,10 @@
 
 <body>
 
-    <div class="jumbotron text-center">
+    <div class="jumbotron">
         <div class="container">
 
-            <div class="row jumbo">
+            <div class="row jumbo text-center">
                 <div class="col-md-12">
                     <div class="jumbo-header">
                         <h1>weather</h1>
@@ -27,25 +27,25 @@
             </div>
             <!--end jumbotron header div-->
 
-            <div class="row choose-temperature">
+            <div class="row choose-temperature text-center">
                 <div class="col-md-12 text-center">
                     <div class="thermometer-icon">
                         <img src="assets/images/thermometer-white.png" id="thermometer-icon">
                     </div>
-                    <div class="choose-tempature-text">
+                    <div class="choose-temperature-text">
                         <h5>choose your temperature:</h5>
                     </div>
                 </div>
             </div>
             <!--end choose-temperature div row-->
 
-            <div class="row" class="temperature-slider" id="temperature-slider">
+            <div class="row" class="temperature-slider text-center" id="temperature-slider">
                 <div class="col-md-1"></div>
                 <div class="col-md-1">
                     <img src="./assets/images/cold.png" class="hot-cold-icon">
                 </div>
                 <div class="col-md-8">
-                    <div class="slidecontainer">
+                    <div class="slidecontainer text-center">
                         <input type="range" min="-10" max="120" value="60" class="slider" id="myRange">
                         <button class="btn temp-btn" id="temp-btn">
                             <span class="temperature" id="temperature"></span>
@@ -61,8 +61,8 @@
             <!-- end temperature-slider div row-->
 
 
-            <div class="row city-options">
-                <div class="col-md-12">
+            <div class="row city-options" id="city-options"></div>
+                <div class="col-md-12 city-h2">
                     <div id="accordion">
 
                     </div>
