@@ -36,6 +36,7 @@ $(document).ready(function () {
             var userMax = userTemp + .3;
             var count = 0; // KEEPING A COUNT OF ALL CITIES
             var cities = []; // Array of cities within temperature range
+
             for (var i = 0; i < response.list.length; i++) {
                 var city = response.list[i];
                 // console.log("city: ",city.name);
@@ -47,6 +48,13 @@ $(document).ready(function () {
                     count++;
                 }
             }
+          
+            if($("#cityh3")){
+                $("#cityh3").remove();
+            }
+            var citiesHeader3 = $(`<h3 id="cityh3">Cities with <span id="slider-value-temp">` + slider.val() + `&deg;F</span> weather:</h3>`);
+            $(".city-h2").prepend(citiesHeader3);
+
             console.log("array of cities matching this temperature: ", cities);
             console.log("city counter: ", count);
             // return cities;
@@ -70,6 +78,14 @@ $(document).ready(function () {
         cardHeader.append(cardLink);
         cardLink.append(data.name);
         card.append(collapse);
+  
+        var click = "click";
+        var click = true;
+        cardLink.on("click", function() {
+            if (click === true) {
+                $(this).css("color", "#fff");
+            }
+        });
 
 
         console.log("city counter: ", cityCounter);
@@ -92,7 +108,6 @@ $(document).ready(function () {
             method: "GET",
             url: fiveDayForecastURL + APIKEY
         }).then(function (response) {
-
             var cardBody = $(`<div class="card-body">`);
             var row = $(`<div class="row">`);
             var col1 = `<div class="col-md-1">`;
@@ -135,8 +150,52 @@ $(document).ready(function () {
 
 
 
-        }); // end of AJAX call
+
+    // **** FRONT-END JQUERY **** // 
+
+
+    var temperatureSliderDiv = $("#temperature-slider");
+    temperatureSliderDiv.hide(); // * hides temp chooser div on page load
+
+    var jumboDiv = $(".jumbo");
+    var thermometerIcon = $("#thermometer-icon");
+    var thermometerIconDiv = $(".thermometer-icon");
+    var chooseTemperatureDiv = $(".choose-temperature");
+    var chooseTemperatureText = $(".choose-temperature-text");
+    var temperatureSliderDiv = $("#temperature-slider");
+    var tempButton = $("#temp-btn");
+    var slidecontainer = $(".slidercontainer");
+    var cityDiv = $("#city-options");
+
+    // * Temperature Slider slide down animation *
+    thermometerIcon.on("click", function () {
+        chooseTemperatureDiv.css("opacity", ".8"); // "activates" choose-temperature div's opacity
+        temperatureSliderDiv.slideDown("slow");
     });
+    
+
+    // Temperature Button onclick toggle
+    tempButton.on("click", function () {
+        jumboDiv.slideUp();
+        thermometerIconDiv.slideUp();
+        chooseTemperatureText
+            .css("margin-top", "-70px");
+        temperatureSliderDiv
+            .css("padding-top", "10px");
+        chooseTemperatureDiv
+            .css("padding-bottom", "0px");
+        cityDiv.slideDown("slow");
+    });
+
+
+    // ** SECTION 2: CITIES POPULATE FEATURE **
+    // Cities Cards onclick functions
+    $(".card-group").hide();
+
+    $("#forecast-button").on("click", function () {
+        $(".card-group").show();
+        console.log("I've been clicked");
+    }); // end of cities card functions
 
     // *** FOURSQUARE API ***
     var queryCity = "Chicago";
@@ -155,5 +214,6 @@ $(document).ready(function () {
             console.log(hotelsList[i].venue.name);
         }
     });
+
 
 }); // end of document ready function
