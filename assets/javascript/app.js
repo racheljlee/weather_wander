@@ -42,9 +42,9 @@ $(document).ready(function () {
     }).then(function (response) {
         console.log("response.cnt : " + response.cnt);
 
-  
-//         button click doesn't exist yet. 
-        
+
+        //         button click doesn't exist yet. 
+
         var userTemp = +slider.val();
         var userMin = userTemp - .3;
         var userMax = userTemp + .3;
@@ -54,12 +54,12 @@ $(document).ready(function () {
             var city = response.list[i];
             if (city.main.temp >= userMin && city.main.temp <= userMax) {
                 count++;
-              // *** SAVE CITY INFORMATION IN FIREBASE ***
+                // *** SAVE CITY INFORMATION IN FIREBASE ***
                 database.ref("/citiesWithinRange").push({
                     "city": city.name,
                     "temperature": city.main.temp
                 });
-              
+
             }
         }
         console.log(count);
@@ -68,9 +68,9 @@ $(document).ready(function () {
 
 
     }).then(function (response) {
-         console.log(response);
+        console.log(response);
         for (var i = 0; i < response.list.length; i++) {
-         
+
         }
         // * Openweather's 5-Day Forecast API
         var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + response.list[5].name + "&appid=";
@@ -82,7 +82,7 @@ $(document).ready(function () {
             console.log(response)
         }); // end of AJAX call
 
-      
+
     });  // end of AJAX call
 
 
@@ -110,13 +110,33 @@ $(document).ready(function () {
     var temperatureSliderDiv = $("#temperature-slider");
     temperatureSliderDiv.hide(); // * hides temp chooser div on page load
 
-
     // * Temperature Slider slide down animation *
     var thermometerIcon = $("#thermometer-icon");
+    var thermometerIconDiv = $(".thermometer-icon");
     var chooseTemperatureDiv = $(".choose-temperature");
+    var chooseTemperatureText = $(".choose-tempature-text");
+    var temperatureSliderDiv = $("#temperature-slider");
+
     thermometerIcon.on("click", function () {
         chooseTemperatureDiv.css("opacity", ".8"); // "activates" choose-temperature div's opacity
         temperatureSliderDiv.slideDown("slow");
+    });
+
+    // Temperature Button onclick toggle
+    var tempButton = $("#temp-btn");
+    var jumboDiv = $(".jumbo");
+    var slidecontainer = $(".slidercontainer");
+
+
+    tempButton.on("click", function () {
+        jumboDiv.slideUp();
+        thermometerIconDiv.slideUp();
+        chooseTemperatureText
+            .css("margin-top", "-70px");
+        temperatureSliderDiv
+            .css("padding-top", "10px");
+        chooseTemperatureDiv
+            .css("padding-bottom", "0px");
     });
 
 

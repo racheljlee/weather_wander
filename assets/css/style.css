@@ -1,5 +1,6 @@
 body {
     background: linear-gradient(#90CAF9, #039BE5, #0097A7);
+    background-attachment: fixed;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -78,6 +79,10 @@ img {
     background: #CE93D8;
     cursor: pointer;
 }
+.hot-cold-icon {
+    height: 30px;
+}
+
 .temp-btn {
     background: #CE93D8;
     width: 150px;
@@ -90,4 +95,5 @@ img {
 /* CITIES CARDS */
 .city-options {
     margin: 0 auto;
+    overflow: hidden;
 }

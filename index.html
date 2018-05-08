@@ -29,8 +29,8 @@
 
             <div class="row choose-temperature">
                 <div class="col-md-12 text-center">
-                    <div class="thermometer-icon" id="thermometer-icon">
-                        <img src="assets/images/thermometer-white.png">
+                    <div class="thermometer-icon">
+                        <img src="assets/images/thermometer-white.png" id="thermometer-icon">
                     </div>
                     <div class="choose-tempature-text">
                         <h5>choose your temperature:</h5>
@@ -40,15 +40,19 @@
             <!--end choose-temperature div row-->
 
             <div class="row" class="temperature-slider" id="temperature-slider">
-                <div class="col-md-12">
+                <div class="col-md-1"></div>
+                <div class="col-md-1"><img src="./assets/images/cold.png" class="hot-cold-icon"></div>
+                <div class="col-md-8">
                     <div class="slidecontainer">
                         <input type="range" min="-10" max="120" value="60" class="slider" id="myRange">
-                        <button class="btn temp-btn">
+                        <button class="btn temp-btn" id="temp-btn">
                             <span class="temperature" id="temperature"></span>
                             <span class="degrees-fahrenheit">&deg;F, Please!</span>
                         </button>
                     </div>
                 </div>
+                <div class="col-md-1"><img src="./assets/images/hot.png" class="hot-cold-icon"></div>
+                <div class="col-md-1"></div>
             </div>
             <!-- end temperature-slider div row-->
 
@@ -57,7 +61,7 @@
             <!--end cities-table div row-->
 
             <!--Halle's City Card code-->
-            <div class="row city-options">
+            <div class="row city-options" id="city-options">
                 <div class="col-md-12">
                     <div id="accordion">
 
