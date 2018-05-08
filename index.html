@@ -14,10 +14,10 @@
 
 <body>
 
-    <div class="jumbotron text-center">
+    <div class="jumbotron">
         <div class="container">
 
-            <div class="row jumbo">
+            <div class="row jumbo text-center">
                 <div class="col-md-12">
                     <div class="jumbo-header">
                         <h1>weather</h1>
@@ -28,95 +28,78 @@
             </div>
             <!--end jumbotron header div-->
 
-            <div class="row choose-temperature">
+            <div class="row choose-temperature text-center">
                 <div class="col-md-12 text-center">
-                    <div class="thermometer-icon" id="thermometer-icon">
-                        <img src="assets/images/thermometer-white.png">
+                    <div class="thermometer-icon">
+                        <img src="assets/images/thermometer-white.png" id="thermometer-icon">
                     </div>
-                    <div class="choose-tempature-text">
+                    <div class="choose-temperature-text">
                         <h5>choose your temperature:</h5>
                     </div>
                 </div>
             </div>
             <!--end choose-temperature div row-->
 
-            <div class="row" class="temperature-slider" id="temperature-slider">
-                <div class="col-md-12">
-                    <div class="slidecontainer">
+            <div class="row" class="temperature-slider text-center" id="temperature-slider">
+                <div class="col-md-1"></div>
+                <div class="col-md-1">
+                    <img src="./assets/images/cold.png" class="hot-cold-icon">
+                </div>
+                <div class="col-md-8">
+                    <div class="slidecontainer text-center">
                         <input type="range" min="-10" max="120" value="60" class="slider" id="myRange">
-                        <button class="btn temp-btn">
+                        <button class="btn temp-btn" id="temp-btn">
                             <span class="temperature" id="temperature"></span>
                             <span class="degrees-fahrenheit">&deg;F, Please!</span>
                         </button>
                     </div>
                 </div>
+                <div class="col-md-1">
+                    <img src="./assets/images/hot.png" class="hot-cold-icon">
+                </div>
+                <div class="col-md-1"></div>
             </div>
             <!-- end temperature-slider div row-->
 
 
-
-            <!--end cities-table div row-->
-
-            <!--Halle's City Card code-->
-            <div class="row city-options">
-                <div class="col-md-12">
+            <div class="row city-options" id="city-options"></div>
+                <div class="col-md-12 city-h2">
                     <div id="accordion">
-                        
+
                     </div>
                 </div>
             </div>
-            <!--end city-options div row-->
+            <!--end city-options row div-->
 
+        </div>
+        <!-- end container div-->
+    </div>
+    <!--end jumbotron div-->
 
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBaQgfA2CxGwfr1FYps5zXP1fwa368EgDY",
+            authDomain: "weather-wander.firebaseapp.com",
+            databaseURL: "https://weather-wander.firebaseio.com",
+            projectId: "weather-wander",
+            storageBucket: "weather-wander.appspot.com",
+            messagingSenderId: "406924302506"
+        };
+        firebase.initializeApp(config);
+    </script>
 
-            <!--end Halle's code-->
-
-
-            <div class="row" class="cities-table" id="cities-table">
-                <div class="col-md-12">
-                    <h2>20 Cities:</h2>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>City Name</th>
-                                <th>State</th>
-                                <th>Current Temperature</th>
-                            </tr>
-                        </thead>
-                        <tbody id="citiesWithinRange">
-                            <!--Data from openweather API should populate-->
-                        </tbody>
-                    </table>
-
-                </div>
-                <!-- end container div-->
-            </div>
-            <!--end jumbotron div-->
-
-            <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
-            <script>
-                // Initialize Firebase
-                var config = {
-                    apiKey: "AIzaSyBaQgfA2CxGwfr1FYps5zXP1fwa368EgDY",
-                    authDomain: "weather-wander.firebaseapp.com",
-                    databaseURL: "https://weather-wander.firebaseio.com",
-                    projectId: "weather-wander",
-                    storageBucket: "weather-wander.appspot.com",
-                    messagingSenderId: "406924302506"
-                };
-                firebase.initializeApp(config);
-            </script>
-
-            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-                crossorigin="anonymous"></script>
-            <!--jQuery UI library-->
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <!--Bootstrap jQuery Library-->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-            <!--OUR javascript-->
-            <script src="./assets/javascript/app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <!--jQuery UI library-->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--Bootstrap jQuery Library-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <!--OUR javascript-->
+    <script src="./assets/javascript/app.js"></script>
 </body>
 
 </html>
