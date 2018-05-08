@@ -79,13 +79,13 @@ $(document).ready(function () {
         cardLink.append(data.name);
         card.append(collapse);
 
-        
+
         var click = true;
         cardLink.on("click", function () {
-            if (click === true) {
-                $(this).css("color", "#fff");
-                click = false; // else
-            }
+            $(this).siblings().css("color", "#000");
+            $(this).css("color", "#fff");
+
+            
         });
 
 
@@ -114,10 +114,10 @@ $(document).ready(function () {
             var col1 = `<div class="col-md-1">`;
             var col2 = `<div class="col-md-2">`;
             var p = `<p class="card-text"></p>`;
-            var button = `<div class="btn btn-info"><h3>SEE HOTELS IN THE AREA</h3></div>`;
+            var button = `<div class="btn btn-info"><h3>Stay here</h3></div>`;
             // var pDate = $(`<p class="card-text"></p>`);
 
-            $(collapseDivId).append(`<div class="card-body"><h1>FIVE DAY FORECAST</h1></div>`);
+            $(collapseDivId).append(`<div class="card-body"><h4>5-Day Forecast:</h4></div>`);
             console.log("FiveDayForecast Response", response.list[5].main.temp);
             // console.log("Length: ", response.list.length);
 
@@ -130,93 +130,106 @@ $(document).ready(function () {
             var rightSpace = $(col1).attr("id", "rightSpace");
             row.append(leftSpace);
             var dayCounter = 1;
+
+            var weatherIconsArr = [ // added
+                {name: "rain", image: "./images/rain.png"},
+                {name: "snow", image: "./images/cold.png"},
+                {name: "sunny", image: "./images/sunny.png"},
+                {name: "thunder", image: ".images/thunder.png"},
+                {name: "tornado", image: ".images/tornado.png"}
+            ];
+            var randomWeatherImg = weatherIconsArr[Math.floor(Math.random() * weatherIconsArr.length)];
+
             // This for loop generates date and temperature for 5 day forecast
             for (var i = 4; i < response.list.length; i = i + 8) {
                 var day = $(col2).attr("id", "day" + dayCounter);
-                var dayTemp = $(p).attr("id", "dayTemp" + dayCounter);
-                var dateTemp = $(p).attr("id", "dateTemp" + dayCounter);
+                var weatherImgDiv = $(col2).attr("id", "weather-icon"); // added
+                var dayTemp = $(p).attr("id", "dayTemp" + dayCounter).addClass("temp-text");
+                var dateTemp = $(p).attr("id", "dateTemp" + dayCounter).addClass("date-text");
                 row.append(day);
                 day.append(dayTemp);
                 day.append(dateTemp);
-                dayTemp.append(response.list[i].main.temp);
+                dayTemp.append(response.list[i].main.temp + "&deg;F");
                 dateTemp.append(response.list[i].dt_txt.substring(0, 10));
                 console.log("Temperature in F: ", response.list[i].main.temp);
                 console.log("Date: ", response.list[i].dt_txt.substring(0, 10));
                 dayCounter++;
             }
-            
+
             row.append(rightSpace);
-            
+
             cardBody.append(button);
-        }); 
+        });
     }); // end of cardlink onclick delegator function
-            
 
 
 
-            // **** FRONT-END JQUERY **** // 
+
+    // **** FRONT-END JQUERY **** // 
 
 
-            var temperatureSliderDiv = $("#temperature-slider");
-            temperatureSliderDiv.hide(); // * hides temp chooser div on page load
+    var temperatureSliderDiv = $("#temperature-slider");
+    temperatureSliderDiv.hide(); // * hides temp chooser div on page load
 
-            var jumboDiv = $(".jumbo");
-            var thermometerIcon = $("#thermometer-icon");
-            var thermometerIconDiv = $(".thermometer-icon");
-            var chooseTemperatureDiv = $(".choose-temperature");
-            var chooseTemperatureText = $(".choose-temperature-text");
-            var temperatureSliderDiv = $("#temperature-slider");
-            var tempButton = $("#temp-btn");
-            var slidecontainer = $(".slidercontainer");
-            var cityDiv = $("#city-options");
-            
-            // * Temperature Slider slide down animation *
-            thermometerIcon.on("click", function () {
-                chooseTemperatureDiv.css("opacity", ".8"); // "activates" choose-temperature div's opacity
-                temperatureSliderDiv.slideDown("slow");
-            });
+    var jumboDiv = $(".jumbo");
+    var thermometerIcon = $("#thermometer-icon");
+    var thermometerIconDiv = $(".thermometer-icon");
+    var chooseTemperatureDiv = $(".choose-temperature");
+    var chooseTemperatureText = $(".choose-temperature-text");
+    var temperatureSliderDiv = $("#temperature-slider");
+    var tempButton = $("#temp-btn");
+    var slidecontainer = $(".slidercontainer");
+    var cityDiv = $("#city-options");
 
-
-            // Temperature Button onclick toggle
-            tempButton.on("click", function () {
-                jumboDiv.slideUp();
-                thermometerIconDiv.slideUp();
-                chooseTemperatureText
-                    .css("margin-top", "-70px");
-                temperatureSliderDiv
-                    .css("padding-top", "10px");
-                chooseTemperatureDiv
-                    .css("padding-bottom", "0px");
-                cityDiv.slideDown("slow");
-            });
+    // * Temperature Slider slide down animation *
+    thermometerIcon.on("click", function () {
+        chooseTemperatureDiv.css("opacity", ".8"); // "activates" choose-temperature div's opacity
+        temperatureSliderDiv.slideDown("slow");
+    });
 
 
-            // ** SECTION 2: CITIES POPULATE FEATURE **
-            // Cities Cards onclick functions
-            $(".card-group").hide();
+    // Temperature Button onclick toggle
+    tempButton.on("click", function () {
+        jumboDiv.slideUp();
+        thermometerIconDiv.slideUp();
+        chooseTemperatureText
+            .css("margin-top", "-70px");
+        temperatureSliderDiv
+            .css("padding-top", "10px");
+        chooseTemperatureDiv
+            .css("padding-bottom", "0px");
+        cityDiv.slideDown("slow");
+    });
 
-            $("#forecast-button").on("click", function () {
-                $(".card-group").show();
-                console.log("I've been clicked");
-            }); // end of cities card functions
 
-            // *** FOURSQUARE API ***
-            var queryCity = "Chicago";
-            var clientID = "KKWZ0AZRDFFQZVPRPXDQDFQGKKKVLSSPOIHYG0GXBIKFRRNN";
-            var clientSecret = "GQCLHQBZ5OFEWE4430YKBPETWT2535BAJWQW0D0RPYILV5GM";
-            var fourSquareURL = "https://api.foursquare.com/v2/venues/explore?&near="
-                + queryCity + "&client_id=" + clientID + "&client_secret="
-                + clientSecret + "&v=20180508" + "&query=hotels";
-            $.ajax({
-                method: "GET",
-                url: fourSquareURL,
-            }).then(function (response) {
-                var hotelsList = response.response.groups[0].items;
-                for (var i = 0; i < hotelsList.length; i++) {
-                    // *** This generates a list of all hotels in this city ***
-                    console.log(hotelsList[i].venue.name);
-                }
-            });
+    // ** SECTION 2: CITIES POPULATE FEATURE **
+    // Cities Cards onclick functions
+    $(".card-group").hide();
+
+    $("#forecast-button").on("click", function () {
+        $(".card-group").show();
+        console.log("I've been clicked");
+    }); // end of cities card functions
+
+
+
+    // *** FOURSQUARE API ***
+    var queryCity = "Chicago";
+    var clientID = "KKWZ0AZRDFFQZVPRPXDQDFQGKKKVLSSPOIHYG0GXBIKFRRNN";
+    var clientSecret = "GQCLHQBZ5OFEWE4430YKBPETWT2535BAJWQW0D0RPYILV5GM";
+    var fourSquareURL = "https://api.foursquare.com/v2/venues/explore?&near="
+        + queryCity + "&client_id=" + clientID + "&client_secret="
+        + clientSecret + "&v=20180508" + "&query=hotels";
+    $.ajax({
+        method: "GET",
+        url: fourSquareURL,
+    }).then(function (response) {
+        var hotelsList = response.response.groups[0].items;
+        for (var i = 0; i < hotelsList.length; i++) {
+            // *** This generates a list of all hotels in this city ***
+            console.log(hotelsList[i].venue.name);
+        }
+    });
 
 
 }); // end of document ready function

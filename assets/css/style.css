@@ -17,6 +17,22 @@ h2 {
 
 h3 {
     font-size: 28px;
+    margin-bottom: 0px;
+}
+
+h4 {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 14px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #25A2B7;
+    border-radius: 5px;
+    width: 150px;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+    top: 50%;
 }
 
 h5 {
@@ -129,4 +145,27 @@ img {
 #slider-value-temp {
     color: #fff;
     opacity: .8;
+}
+.clicked {
+    color: #fff;
+}
+.btn-info {
+    padding: 10px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    width: 300px;
+    background-color: #CE93D8;
+}
+#day1, #day2, #day3, #day4, #day5 p {
+    text-align: center;
+}
+.temp-text {
+    font-size: 28px;
+}
+.col-md-2 {
+    border-right: 1px solid rgba(255, 255, 255, .3);
+}
+.col-md-2:last-child {
+    border-right: 0px;
 }
