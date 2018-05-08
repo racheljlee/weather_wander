@@ -37,7 +37,6 @@ $(document).ready(function () {
             var count = 0; // KEEPING A COUNT OF ALL CITIES
             var cities = []; // Array of cities within temperature range
 
-
             for (var i = 0; i < response.list.length; i++) {
                 var city = response.list[i];
                 // console.log("city: ",city.name);
@@ -49,6 +48,7 @@ $(document).ready(function () {
                     count++;
                 }
             }
+          
             if($("#cityh3")){
                 $("#cityh3").remove();
             }
@@ -60,7 +60,7 @@ $(document).ready(function () {
             // return cities;
         })
     });
-
+    
     // ** CREATING ACCORDION TO APPEAR ON DOM **
     function createAccordion(data, cityCounter) {
 
@@ -71,14 +71,6 @@ $(document).ready(function () {
         var cardLink = $(`<a class="card-link" data-toggle="collapse" href="#collapse${cityCounter}" id="cityTab${cityCounter}">`);
         cardLink.attr("data-city", data.name);
         var collapse = $(`<div id="collapse${cityCounter}" data-parent="#accordion" class="collapse">`);
-        var cardBody = $(`<div class="card-body">`);
-        var row = $(`<div class="row">`);
-        var col1 = `<div class="col-md-1">`;
-        var col2 = `<div class="col-md-2">`;
-        var img = $(`<img class="card-img-top" alt="Card image cap">`);
-        img.attr("src", "http://via.placeholder.com/200x150");
-        var pTemp = $(`<p class="card-text"></p>`);
-        var pDay = $(`<p class="card-text"></p>`);
 
         // *** APPENDING ACCORDION PARTS ***
         $("#accordion").append(card);
@@ -86,25 +78,7 @@ $(document).ready(function () {
         cardHeader.append(cardLink);
         cardLink.append(data.name);
         card.append(collapse);
-        collapse.append(cardBody);
-        cardBody.append(row);
-
-        var leftSpace = $(col1).attr("id", "leftSpace");
-        var dayOne = $(col2).attr("id", "dayOne");
-        var dayTwo = $(col2).attr("id", "dayTwo");
-        var dayThree = $(col2).attr("id", "dayThree");
-        var dayFour = $(col2).attr("id", "dayFour");
-        var dayFive = $(col2).attr("id", "dayFive");
-        var rightSpace = $(col1).attr("id", "rightSpace");
-
-        row.append(leftSpace);
-        row.append(dayOne);
-        row.append(dayTwo);
-        row.append(dayThree);
-        row.append(dayFour);
-        row.append(dayFive);
-        row.append(rightSpace);
-
+  
         var click = "click";
         var click = true;
         cardLink.on("click", function() {
@@ -112,6 +86,7 @@ $(document).ready(function () {
                 $(this).css("color", "#fff");
             }
         });
+
 
         console.log("city counter: ", cityCounter);
         console.log("CardLink ID Value (represents count): ", cardLink.attr("id"));
@@ -121,45 +96,57 @@ $(document).ready(function () {
     // *** CLICKING ON THE CITY NAME TO SHOW 5 DAY FORECAST
     $(document).on("click", ".card-link", function () {
         // console.log("what is this: ", $(this).attr("id"));
+        var collapseDivId = $(this).attr("href");
+        $(collapseDivId).empty();
+        console.log(collapseDivId);
 
 
         // * Openweather's 5-Day Forecast API
-        var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + $(this).attr("data-city") + "&appid=";
+        var fiveDayForecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + $(this).attr("data-city") + "&units=imperial" + "&appid=";
 
         $.ajax({
             method: "GET",
             url: fiveDayForecastURL + APIKEY
         }).then(function (response) {
-            console.log("Length: ", response.list.length);
+            var cardBody = $(`<div class="card-body">`);
+            var row = $(`<div class="row">`);
+            var col1 = `<div class="col-md-1">`;
+            var col2 = `<div class="col-md-2">`;
+            var p = `<p class="card-text"></p>`;
+            var button = `<div class="btn btn-info"><h3>SEE HOTELS IN THE AREA</h3></div>`;
+            // var pDate = $(`<p class="card-text"></p>`);
 
-            console.log($(this).attr("data-city"));
-            var collapseDivId = $(this).attr("href");
-            console.log(collapseDivId);
-            $(collapseDivId).append(`<div class="card-body">HELLO</div>`)
-            // card.collapse.show();
+            $(collapseDivId).append(`<div class="card-body"><h1>FIVE DAY FORECAST</h1></div>`);
+            console.log("FiveDayForecast Response", response.list[5].main.temp);
+            // console.log("Length: ", response.list.length);
 
+            // console.log($(this).attr("data-city"));
 
-        }); // end of AJAX call
-    });
+            $(collapseDivId).append(cardBody);
+            cardBody.append(row);
 
-    // *** FOURSQUARE API ***
-    var queryCity = "Chicago";
-    var clientID = "KKWZ0AZRDFFQZVPRPXDQDFQGKKKVLSSPOIHYG0GXBIKFRRNN";
-    var clientSecret = "GQCLHQBZ5OFEWE4430YKBPETWT2535BAJWQW0D0RPYILV5GM";
-    var fourSquareURL = "https://api.foursquare.com/v2/venues/explore?&near="
-        + queryCity + "&client_id=" + clientID + "&client_secret="
-        + clientSecret + "&v=20180508" + "&query=hotels";
-    $.ajax({
-        method: "GET",
-        url: fourSquareURL,
-    }).then(function (response) {
-        var hotelsList = response.response.groups[0].items;
-        for (var i = 0; i < hotelsList.length; i++) {
-            // *** This generates a list of all hotels in this city ***
-            console.log(hotelsList[i].venue.name);
-        }
-    });
+            var leftSpace = $(col1).attr("id", "leftSpace");
+            var rightSpace = $(col1).attr("id", "rightSpace");
+            row.append(leftSpace);
+            var dayCounter = 1;
+            // This for loop generates date and temperature for 5 day forecast
+            for (var i = 4; i < response.list.length; i = i + 8) {
+                var day = $(col2).attr("id", "day" + dayCounter);
+                var dayTemp = $(p).attr("id", "dayTemp" + dayCounter);
+                var dateTemp = $(p).attr("id", "dateTemp" + dayCounter);
+                row.append(day);
+                day.append(dayTemp);
+                day.append(dateTemp);
+                dayTemp.append(response.list[i].main.temp);
+                dateTemp.append(response.list[i].dt_txt.substring(0, 10));
+                console.log("Temperature in F: ", response.list[i].main.temp);
+                console.log("Date: ", response.list[i].dt_txt.substring(0, 10));
+                dayCounter++;
+            }
 
+            row.append(rightSpace);
+            
+            cardBody.append(button);
 
 
 
@@ -209,5 +196,24 @@ $(document).ready(function () {
         $(".card-group").show();
         console.log("I've been clicked");
     }); // end of cities card functions
+
+    // *** FOURSQUARE API ***
+    var queryCity = "Chicago";
+    var clientID = "KKWZ0AZRDFFQZVPRPXDQDFQGKKKVLSSPOIHYG0GXBIKFRRNN";
+    var clientSecret = "GQCLHQBZ5OFEWE4430YKBPETWT2535BAJWQW0D0RPYILV5GM";
+    var fourSquareURL = "https://api.foursquare.com/v2/venues/explore?&near="
+        + queryCity + "&client_id=" + clientID + "&client_secret="
+        + clientSecret + "&v=20180508" + "&query=hotels";
+    $.ajax({
+        method: "GET",
+        url: fourSquareURL,
+    }).then(function (response) {
+        var hotelsList = response.response.groups[0].items;
+        for (var i = 0; i < hotelsList.length; i++) {
+            // *** This generates a list of all hotels in this city ***
+            console.log(hotelsList[i].venue.name);
+        }
+    });
+
 
 }); // end of document ready function
