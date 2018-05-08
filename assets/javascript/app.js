@@ -48,7 +48,7 @@ $(document).ready(function () {
             return cities;
         })
     });
-
+    
     // ** CREATING ACCORDION TO APPEAR ON DOM **
     function createAccordion(data, cityCounter) {
 
