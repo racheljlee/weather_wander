@@ -45,9 +45,6 @@ img {
 .choose-temperature:hover {
     opacity: .8;
 }
-.choose-temperature:target {
-    opacity: .8;
-}
 
 /* Temperature Slider */
 .slidecontainer {

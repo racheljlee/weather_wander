@@ -106,13 +106,16 @@ $(document).ready(function () {
 
     // **** FRONT-END JQUERY **** // 
 
+
     var temperatureSliderDiv = $("#temperature-slider");
     temperatureSliderDiv.hide(); // * hides temp chooser div on page load
 
 
     // * Temperature Slider slide down animation *
     var thermometerIcon = $("#thermometer-icon");
+    var chooseTemperatureDiv = $(".choose-temperature");
     thermometerIcon.on("click", function () {
+        chooseTemperatureDiv.css("opacity", ".8"); // "activates" choose-temperature div's opacity
         temperatureSliderDiv.slideDown("slow");
     });
 
