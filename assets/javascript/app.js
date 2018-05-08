@@ -24,7 +24,7 @@ $(document).ready(function () {
     });
 
     $(".temp-btn").on("click", function () {
-        console.log("I clicked this");
+        // console.log("I clicked this");
         $("#accordion").empty();
         $.ajax({
             method: "GET",
@@ -57,6 +57,7 @@ $(document).ready(function () {
 
             console.log("array of cities matching this temperature: ", cities);
             console.log("city counter: ", count);
+
             // return cities;
         })
     });
@@ -89,8 +90,8 @@ $(document).ready(function () {
         });
 
 
-        console.log("city counter: ", cityCounter);
-        console.log("CardLink ID Value (represents count): ", cardLink.attr("id"));
+        // console.log("city counter: ", cityCounter);
+        // console.log("CardLink ID Value (represents count): ", cardLink.attr("id"));
         // We can use either cityCounter or data.name to get city. In case of data.name, we don't need cities[]. 
     }
 
@@ -100,6 +101,7 @@ $(document).ready(function () {
         var collapseDivId = $(this).attr("href");
         $(collapseDivId).empty();
         console.log(collapseDivId);
+        var cityName = $(this).attr("data-city");
 
 
         // * Openweather's 5-Day Forecast API
@@ -114,14 +116,13 @@ $(document).ready(function () {
             var col1 = `<div class="col-md-1">`;
             var col2 = `<div class="col-md-2">`;
             var p = `<p class="card-text"></p>`;
-            var button = `<div class="btn btn-info"><h3>SEE HOTELS IN THE AREA</h3></div>`;
-            // var pDate = $(`<p class="card-text"></p>`);
-
+            var button = `<div class="btn btn-info" id="hotelButton">SEE HOTELS IN THE AREA</div>`;
+            $(button).attr("data-cityname", collapseDivId);
+            
             $(collapseDivId).append(`<div class="card-body"><h1>FIVE DAY FORECAST</h1></div>`);
-            console.log("FiveDayForecast Response", response.list[5].main.temp);
+            // console.log("FiveDayForecast Response", response.list[5].main.temp);
             // console.log("Length: ", response.list.length);
 
-            // console.log($(this).attr("data-city"));
 
             $(collapseDivId).append(cardBody);
             cardBody.append(row);
@@ -140,8 +141,8 @@ $(document).ready(function () {
                 day.append(dateTemp);
                 dayTemp.append(response.list[i].main.temp);
                 dateTemp.append(response.list[i].dt_txt.substring(0, 10));
-                console.log("Temperature in F: ", response.list[i].main.temp);
-                console.log("Date: ", response.list[i].dt_txt.substring(0, 10));
+                // console.log("Temperature in F: ", response.list[i].main.temp);
+                // console.log("Date: ", response.list[i].dt_txt.substring(0, 10));
                 dayCounter++;
             }
             
@@ -152,7 +153,33 @@ $(document).ready(function () {
     }); // end of cardlink onclick delegator function
             
 
-
+           
+            $("#hotelButton").on("click", function (){     
+                console.log("Hotel Button Clicked"); 
+                console.log("city: ", cityName);
+                // *** FOURSQUARE API ***
+                var queryCity = cityName;
+                var clientID = "KKWZ0AZRDFFQZVPRPXDQDFQGKKKVLSSPOIHYG0GXBIKFRRNN";
+                var clientSecret = "GQCLHQBZ5OFEWE4430YKBPETWT2535BAJWQW0D0RPYILV5GM";
+                var fourSquareURL = "https://api.foursquare.com/v2/venues/explore?&near="
+                + queryCity + "&client_id=" + clientID + "&client_secret="
+                + clientSecret + "&v=20180508" + "&query=hotels";
+                $.ajax({
+                    method: "GET",
+                    url: fourSquareURL,
+                }).then(function (response) {
+                    var hotelsList = response.response.groups[0].items;
+                    for (var i = 0; i < hotelsList.length; i++) {
+                        // *** This generates a list of all hotels in this city ***
+                        console.log(hotelsList[i].venue.name);
+                    }
+                });
+        
+                // *** MAKE HOTEL ACCORDION HERE ***
+            });
+        }); // end of AJAX call
+        
+    });
 
             // **** FRONT-END JQUERY **** // 
 
@@ -200,23 +227,7 @@ $(document).ready(function () {
                 console.log("I've been clicked");
             }); // end of cities card functions
 
-            // *** FOURSQUARE API ***
-            var queryCity = "Chicago";
-            var clientID = "KKWZ0AZRDFFQZVPRPXDQDFQGKKKVLSSPOIHYG0GXBIKFRRNN";
-            var clientSecret = "GQCLHQBZ5OFEWE4430YKBPETWT2535BAJWQW0D0RPYILV5GM";
-            var fourSquareURL = "https://api.foursquare.com/v2/venues/explore?&near="
-                + queryCity + "&client_id=" + clientID + "&client_secret="
-                + clientSecret + "&v=20180508" + "&query=hotels";
-            $.ajax({
-                method: "GET",
-                url: fourSquareURL,
-            }).then(function (response) {
-                var hotelsList = response.response.groups[0].items;
-                for (var i = 0; i < hotelsList.length; i++) {
-                    // *** This generates a list of all hotels in this city ***
-                    console.log(hotelsList[i].venue.name);
-                }
-            });
 
-
+    
+        
 }); // end of document ready function
