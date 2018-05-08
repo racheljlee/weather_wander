@@ -54,7 +54,7 @@ $(document).ready(function () {
        
         // console.log("Data: ", data);
         // *** GENERATING ACCORDION + CARD ***
-        var card = $(`<div class="card">`);
+        var cardDiv = $(`<div class="card">`);
         var cardHeader = $(`<div class="card-header">`);
         var cardLink = $(`<a class="card-link" data-toggle="collapse" href="#collapse${cityCounter}" id="cityTab${cityCounter}">`);
         cardLink.attr("data-city", data.name);
@@ -69,15 +69,22 @@ $(document).ready(function () {
         var pDay = $(`<p class="card-text"></p>`);
 
         // *** APPENDING ACCORDION PARTS ***
-        $("#accordion").append(card);
-        card.append(cardHeader);
+        $("#accordion").append(cardDiv);
+        cardDiv.append(cardHeader);
         cardHeader.append(cardLink);
         cardLink.append(data.name);
-        card.append(collapse);
+        cardDiv.append(collapse);
         collapse.append(cardBody);
         cardBody.append(row);
+        row.append(col1);
+        row.append(col2);
+        row.append(col2);
+        row.append(col2);
+        row.append(col2);
+        row.append(col2);
+        row.append(col1);
         
-        return card;
+        return cardDiv;
     }
 
     // *** CLICKING ON THE CITY NAME TO SHOW 5 DAY FORECAST
@@ -92,8 +99,18 @@ $(document).ready(function () {
             method: "GET",
             url: fiveDayForecastURL + APIKEY
         }).then(function (response) {
-            console.log(response)
-            console.log("list 5 dt txt: ", response.list[5].dt_txt);
+            console.log("Length: ", response.list.length);
+            // console.log("list 5 dt txt: ", response.list[5].dt_txt);
+            for (var i = 4; i < response.list.length ; i = i + 8) {
+                console.log("i is: ", i);
+                console.log("list [i] dt txt: ", response.list[i].dt_txt);
+                console.log(response.list[i].dt_txt.substring(0,10));
+            }
+            card.append(collapse);
+            collapse.append(cardBody);
+            cardBody.append(row);
+            
+
         }); // end of AJAX call
     });
 }); // end of document ready function
