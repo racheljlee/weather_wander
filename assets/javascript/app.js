@@ -101,17 +101,14 @@ $(document).ready(function () {
 
         var click = true;
         cardLink.on("click", function () {
-<<<<<<< feature/firebase
             if (click === true) {
                 $(this).css("color", "#fff");
                 click = false; // else
             }
-=======
             $(this).siblings().css("color", "#000");
             $(this).css("color", "#fff");
 
 
->>>>>>> master
         });
 
 
@@ -119,9 +116,6 @@ $(document).ready(function () {
         // console.log("CardLink ID Value (represents count): ", cardLink.attr("id"));
         // We can use either cityCounter or data.name to get city. In case of data.name, we don't need cities[]. 
     }
-<<<<<<< feature/firebase
-    
-=======
     var rain = "./assets/images/rain.png";
     var snow = "./assets/images/cold.png";
     var sunny = "./assets/images/sunny.png";
@@ -132,7 +126,6 @@ $(document).ready(function () {
 
     var randomWeatherImg = weatherArr[Math.floor(Math.random() * weatherArr.length)];
 
->>>>>>> master
     // *** CLICKING ON THE CITY NAME TO SHOW 5 DAY FORECAST
     $(document).on("click", ".card-link", function () {
         // console.log("what is this: ", $(this).attr("id"));
@@ -173,13 +166,8 @@ $(document).ready(function () {
             var col2 = `<div class="col-md-2">`;
             var img = $(`<img src="` + randomWeatherImg + `" class="weather-icon">`)
             var p = `<p class="card-text"></p>`;
-<<<<<<< feature/firebase
-            var button = `<div class="btn btn-info hotelButton" data-cityname=${cityName}>SEE HOTELS IN THE AREA</div>`;
-            $(button).attr("data-cityname", cityName);
-=======
             var button = `<div class="btn btn-info hotelButton" data-cityname=${cityName}><h3>Find Hotels</h3></div>`;
             // var pDate = $(`<p class="card-text"></p>`);
->>>>>>> master
 
             $(collapseDivId).append(`<div class="card-body"><h1>FIVE DAY FORECAST</h1></div>`);
             // console.log("FiveDayForecast Response", response.list[5].main.temp);
@@ -193,19 +181,6 @@ $(document).ready(function () {
             var rightSpace = $(col1).attr("id", "rightSpace");
             row.append(leftSpace);
             var dayCounter = 1;
-<<<<<<< feature/firebase
-            // This for loop generates date and temperature for 5 day forecast
-            for (var i = 4; i < response.list.length; i = i + 8) {
-                var day = $(col2).attr("id", "day" + dayCounter);
-                var dayTemp = $(p).attr("id", "dayTemp" + dayCounter);
-                var dateTemp = $(p).attr("id", "dateTemp" + dayCounter);
-                row.append(day);
-                day.append(dayTemp);
-                day.append(dateTemp);
-                dayTemp.append(response.list[i].main.temp);
-=======
-
-
 
             cardBody.prepend(img);
             // This for loop generates date and temperature for 5 day forecast
@@ -217,7 +192,6 @@ $(document).ready(function () {
                 day.append(dayTemp);
                 day.append(dateTemp);
                 dayTemp.append(Math.ceil(response.list[i].main.temp) + "&deg;F");
->>>>>>> master
                 dateTemp.append(response.list[i].dt_txt.substring(0, 10));
                 // console.log("Temperature in F: ", response.list[i].main.temp);
                 // console.log("Date: ", response.list[i].dt_txt.substring(0, 10));
@@ -231,11 +205,8 @@ $(document).ready(function () {
     }); // end of cardlink onclick delegator function
 
     $(document).on("click", ".hotelButton", function () {
-<<<<<<< feature/firebase
-=======
         $("#hotelAccordion").empty();
 
->>>>>>> master
         console.log("Hotel Button Clicked");
         // *** FOURSQUARE API ***
         var queryCity = $(this).attr("data-cityname");
@@ -293,11 +264,8 @@ $(document).ready(function () {
     }); // end of AJAX call
 
     // **** FRONT-END JQUERY **** // 
-<<<<<<< feature/firebase
-=======
     var logo = $(".logo");
     logo.hide();
->>>>>>> master
 
     var temperatureSliderDiv = $("#temperature-slider");
     temperatureSliderDiv.hide(); // * hides temp chooser div on page load
