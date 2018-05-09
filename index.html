@@ -12,6 +12,9 @@
 </head>
 
 <body>
+    <header>
+        <img src="assets/images/logo.png" class="logo">
+    </header>
 
     <div class="jumbotron">
         <div class="container">
@@ -60,25 +63,30 @@
             </div>
             <!-- end temperature-slider div row-->
 
-
-            <div class="row city-options" id="city-options"></div>
-            <div class="col-md-12 city-h2">
-                <div id="accordion">
-
+            <div class="row city-options" id="city-options">
+                <div class="col-md-12 city-h3">
+                    <div id="accordion">
+                    </div>
                 </div>
             </div>
-            <div class="row">
+            <!--end city-options row div-->
+
+            <div class="row hotel-options" id="hotel-options">
+                <div class="col-md-12 hotel-h3">
+                    <div id="hotelAccordion">
+                    </div>
+                </div>
+            </div>
+            <!--end hotel-options row div-->
+              
+              <div class="row">
                 <div class="col-md-12 text-center">
-    
                     <div id="newCitiesList">
                         <h2>Recently Viewed Cities</h2>
                     </div>
                 </div>
-    
-            </div>
-        </div>
-        <!--end city-options row div-->
-
+              </div>
+              <!--end firebase cities list-->
     </div>
     <!-- end container div-->
     </div>
@@ -100,12 +108,12 @@
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-    <!--jQuery UI library-->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!--Bootstrap jQuery Library-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <!--Moment JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
     <!--OUR javascript-->
     <script src="./assets/javascript/app.js"></script>
 </body>
