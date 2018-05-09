@@ -86,7 +86,7 @@ $(document).ready(function () {
             $(this).siblings().css("color", "#000");
             $(this).css("color", "#fff");
 
-            
+
         });
 
 
@@ -134,11 +134,11 @@ $(document).ready(function () {
             var dayCounter = 1;
 
             var weatherIconsArr = [ // added
-                {name: "rain", image: "./images/rain.png"},
-                {name: "snow", image: "./images/cold.png"},
-                {name: "sunny", image: "./images/sunny.png"},
-                {name: "thunder", image: ".images/thunder.png"},
-                {name: "tornado", image: ".images/tornado.png"}
+                { name: "rain", image: "./images/rain.png" },
+                { name: "snow", image: "./images/cold.png" },
+                { name: "sunny", image: "./images/sunny.png" },
+                { name: "thunder", image: ".images/thunder.png" },
+                { name: "tornado", image: ".images/tornado.png" }
             ];
             var randomWeatherImg = weatherIconsArr[Math.floor(Math.random() * weatherIconsArr.length)];
 
@@ -164,7 +164,9 @@ $(document).ready(function () {
         });
     }); // end of cardlink onclick delegator function
 
-    $(document).on("click",".hotelButton", function () {
+    $(document).on("click", ".hotelButton", function () {
+        $("#hotelAccordion").empty();
+
         console.log("Hotel Button Clicked");
         // *** FOURSQUARE API ***
         var queryCity = $(this).attr("data-cityname");
@@ -174,25 +176,50 @@ $(document).ready(function () {
         var fourSquareURL = "https://api.foursquare.com/v2/venues/explore?&near="
             + queryCity + "&client_id=" + clientID + "&client_secret="
             + clientSecret + "&v=20180508" + "&query=hotels";
+        hotelCounter = 0;
+
         $.ajax({
             method: "GET",
             url: fourSquareURL,
         }).then(function (response) {
+            var hotels = [];
+            var hotelCount = 0;
+
             var hotelsList = response.response.groups[0].items;
-            for (var i = 0; i < hotelsList.length; i++) {
+                for (var i = 0; i < hotelsList.length; i++) {
                 // *** This generates a list of all hotels in this city ***
-                console.log(hotelsList[i].venue.name);
+                createHotelAccordion(hotelsList, hotelCount)
+                hotels.push(hotelsList[i].venue.name);
+                hotelCount++;
             }
+            // createHotelAccordion(queryCity);
+            
+            function createHotelAccordion(data, hotelCounter) {
+                var hotelCard = $('<div class="card">');
+                var hotelCardHeader = $(`<div class="card-header">`);
+                var hotelCardLink = $(`<a class="card-link" data-toggle="collapse" href="#collapse${hotelCounter}" id="hotelTab${hotelCounter}">`);
+                hotelCardLink.attr("data-hotelname", hotelsList[i].venue.name);
+                var hotelCollapse = $(`<div id="collapse${hotelCounter}" data-parent="#accordion" class="collapse">`);
+                
+                $("#hotelAccordion").append(hotelCard);
+                hotelCard.append(hotelCardHeader);
+                hotelCardHeader.append(hotelCardLink);
+                hotelCardLink.append(hotelsList[i].venue.name);
+                hotelCard.append(hotelCollapse);
+                
+                console.log("this is hotels array :", hotels);
+                console.log(hotelsList)
+            }
+            
         });
 
-        // *** MAKE HOTEL ACCORDION HERE ***
+
 
     }); // end of AJAX call
 
 
 
     // **** FRONT-END JQUERY **** // 
-
 
     var temperatureSliderDiv = $("#temperature-slider");
     temperatureSliderDiv.hide(); // * hides temp chooser div on page load
