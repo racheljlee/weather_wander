@@ -244,6 +244,8 @@ $(document).ready(function () {
 
 
     // **** FRONT-END JQUERY **** // 
+    var logo = $(".logo");
+    logo.hide();
 
     var temperatureSliderDiv = $("#temperature-slider");
     temperatureSliderDiv.hide(); // * hides temp chooser div on page load
@@ -276,6 +278,7 @@ $(document).ready(function () {
         chooseTemperatureDiv
             .css("padding-bottom", "0px");
         cityDiv.slideDown("slow");
+        logo.fadeIn("slow");
     });
 
 
