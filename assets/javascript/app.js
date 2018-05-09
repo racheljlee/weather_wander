@@ -71,7 +71,7 @@ $(document).ready(function () {
                 $("#cityh3").remove();
             }
             var citiesHeader3 = $(`<h3 id="cityh3">Cities with <span id="slider-value-temp">` + slider.val() + `&deg;F</span> weather:</h3>`);
-            $(".city-h2").prepend(citiesHeader3);
+            $(".city-h3").prepend(citiesHeader3);
 
             console.log("array of cities matching this temperature: ", cities);
             console.log("city counter: ", count);
@@ -103,8 +103,6 @@ $(document).ready(function () {
         cardLink.on("click", function () {
             $(this).siblings().css("color", "#000");
             $(this).css("color", "#fff");
-
-
         });
 
 
@@ -231,6 +229,11 @@ $(document).ready(function () {
                 console.log("this is hotels array :", hotels);
                 console.log(hotelsList)
             }
+            if ($("#hotelh3")) {
+                $("#hotelh3").remove();
+            }
+            var hotelsHeader3 = $(`<h3 id="hotelh3">Hotels near <span id="city-name-value">` + queryCity + `</span></h3>`);
+            $(".hotel-h3").prepend(hotelsHeader3)
             
         });
 
