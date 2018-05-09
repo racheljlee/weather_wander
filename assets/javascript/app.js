@@ -2,21 +2,21 @@ $(document).ready(function () {
     // Initializing FireBase
     var database = firebase.database();
     database.ref("/citiesJustViewed").remove();
-    database.ref("/citiesJustViewed").on("child_added", function (snapshot){
+    database.ref("/citiesJustViewed").on("child_added", function (snapshot) {
         var data = snapshot.val();
         var keys = Object.keys(data);
         console.log("Keys ", keys);
-        for(var i=0; i < keys.length; i++){
+        for (var i = 0; i < keys.length; i++) {
             var newCityAdded = data[keys[i]] + ", ";
             var newCityAddedSpan = $("<span>");
             newCityAddedSpan.html(newCityAdded);
             $("#newCitiesList").append(newCityAddedSpan);
         }
-        
+
         // var keys = data
         // console.log("Keys: ", keys);
     });
-    
+
     // * Openweather's Current Weather API
     // * Get Cities by Rectangle Coordinates
     var APIKEY = "a59b652772e28b82fb2ff69af2f1014c";
@@ -104,12 +104,23 @@ $(document).ready(function () {
             $(this).siblings().css("color", "#000");
             $(this).css("color", "#fff");
         });
+        
 
 
         // console.log("city counter: ", cityCounter);
         // console.log("CardLink ID Value (represents count): ", cardLink.attr("id"));
         // We can use either cityCounter or data.name to get city. In case of data.name, we don't need cities[]. 
     }
+
+    var rain = "./assets/images/rain.png";
+    var snow = "./assets/images/cold.png";
+    var sunny = "./assets/images/sunny.png";
+    var thunder = "./assets/images/thunder.png";
+    var tornado = "./assets/images/tornado.png";
+
+    var weatherArr = [rain, snow, sunny, thunder, tornado];
+
+    var randomWeatherImg = weatherArr[Math.floor(Math.random() * weatherArr.length)];
 
     // *** CLICKING ON THE CITY NAME TO SHOW 5 DAY FORECAST
     $(document).on("click", ".card-link", function () {
@@ -135,6 +146,7 @@ $(document).ready(function () {
             var row = $(`<div class="row">`);
             var col1 = `<div class="col-md-1">`;
             var col2 = `<div class="col-md-2">`;
+            var img = $(`<img src="` + randomWeatherImg + `" class="weather-icon">`)
             var p = `<p class="card-text"></p>`;
             var button = `<div class="btn btn-info hotelButton" data-cityname=${cityName}><h3>Stay here</h3></div>`;
             // var pDate = $(`<p class="card-text"></p>`);
@@ -152,15 +164,8 @@ $(document).ready(function () {
             row.append(leftSpace);
             var dayCounter = 1;
 
-            var weatherIconsArr = [ // added
-                { name: "rain", image: "./images/rain.png" },
-                { name: "snow", image: "./images/cold.png" },
-                { name: "sunny", image: "./images/sunny.png" },
-                { name: "thunder", image: ".images/thunder.png" },
-                { name: "tornado", image: ".images/tornado.png" }
-            ];
-            var randomWeatherImg = weatherIconsArr[Math.floor(Math.random() * weatherIconsArr.length)];
-
+          
+            cardBody.prepend(img);
             // This for loop generates date and temperature for 5 day forecast
             for (var i = 4; i < response.list.length; i = i + 8) {
                 var day = $(col2).attr("id", "day" + dayCounter);
@@ -205,27 +210,27 @@ $(document).ready(function () {
             var hotelCount = 0;
 
             var hotelsList = response.response.groups[0].items;
-                for (var i = 0; i < hotelsList.length; i++) {
+            for (var i = 0; i < hotelsList.length; i++) {
                 // *** This generates a list of all hotels in this city ***
                 createHotelAccordion(hotelsList, hotelCount)
                 hotels.push(hotelsList[i].venue.name);
                 hotelCount++;
             }
             // createHotelAccordion(queryCity);
-            
+
             function createHotelAccordion(data, hotelCounter) {
                 var hotelCard = $('<div class="card">');
                 var hotelCardHeader = $(`<div class="card-header">`);
                 var hotelCardLink = $(`<a class="card-link" data-toggle="collapse" href="#collapse${hotelCounter}" id="hotelTab${hotelCounter}">`);
                 hotelCardLink.attr("data-hotelname", hotelsList[i].venue.name);
                 var hotelCollapse = $(`<div id="collapse${hotelCounter}" data-parent="#accordion" class="collapse">`);
-                
+
                 $("#hotelAccordion").append(hotelCard);
                 hotelCard.append(hotelCardHeader);
                 hotelCardHeader.append(hotelCardLink);
                 hotelCardLink.append(hotelsList[i].venue.name);
                 hotelCard.append(hotelCollapse);
-                
+
                 console.log("this is hotels array :", hotels);
                 console.log(hotelsList)
             }
@@ -234,7 +239,7 @@ $(document).ready(function () {
             }
             var hotelsHeader3 = $(`<h3 id="hotelh3">Hotels near <span id="city-name-value">` + queryCity + `</span></h3>`);
             $(".hotel-h3").prepend(hotelsHeader3)
-            
+
         });
 
 
