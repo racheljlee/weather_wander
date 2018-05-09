@@ -123,7 +123,7 @@ img {
 
 
 
-/* CITIES ACCORDION */
+/* CITIES && HOTELS ACCORDION */
 .city-options {
     margin: 0 auto;
     overflow: hidden;
@@ -184,4 +184,15 @@ img {
 }
 
 
-/* HOTELS ACCORDION */
+/* FOOTER */
+footer {
+    margin: 0 auto;
+    text-align: center;
+    opacity: .5;
+}
+footer p {
+    font-size: 12px;
+    color: #fff;
+    font-weight: normal;
+    margin-bottom: 0rem;
+}
